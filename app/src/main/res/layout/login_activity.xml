@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/soft_blue"
     tools:context=".LoginActivity">
+
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -14,14 +18,12 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login Screen!" />
+
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="409dp"
         android:layout_height="131dp"
         android:orientation="horizontal"
@@ -34,7 +36,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="auth"
+            android:backgroundTint ="@color/soft_red"
             android:text="Button" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="80dp"
+        android:layout_height="289dp"
+        android:backgroundTint="@color/soft_violet"
+        android:text="Button"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="426dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="86dp"
+        android:layout_height="274dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="231dp"
+        tools:layout_editor_absoluteY="441dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="83dp"
+        android:layout_height="249dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="327dp"
+        tools:layout_editor_absoluteY="466dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="81dp"
+        android:layout_height="197dp"
+        android:text="Button"
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="518dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

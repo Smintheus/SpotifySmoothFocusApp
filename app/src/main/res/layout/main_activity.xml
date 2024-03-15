@@ -7,20 +7,41 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="accToken"
+        android:text="Refresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/accessToken"
+        android:layout_width="377dp"
+        android:layout_height="26dp"
+        android:layout_weight="1"
+        android:text="AccessTokem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/volumeUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:onClick="refresh"
+        android:onClick="volumeUp"
         android:text="Volume Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/volumeDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="volumeDown"
         android:text="Volume Down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

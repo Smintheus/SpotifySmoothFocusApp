@@ -58,6 +58,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     //implementation("androidx.security:security-crypto-ktx:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

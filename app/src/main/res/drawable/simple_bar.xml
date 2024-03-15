@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- First rectangle -->
+    <item android:left="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#3498db"/> <!-- Rectangle background color -->
+            <size android:width="10dp" android:height="100dp"/> <!-- Rectangle dimensions -->
+        </shape>
+    </item>
+
+    <!-- Gap between rectangles -->
+    <item android:left="10dp"/>
+
+    <!-- Second rectangle -->
+    <item android:left="60dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#e74c3c"/> <!-- Rectangle background color -->
+            <size android:width="10dp" android:height="100dp"/> <!-- Rectangle dimensions -->
+        </shape>
+    </item>
+
+</layer-list>

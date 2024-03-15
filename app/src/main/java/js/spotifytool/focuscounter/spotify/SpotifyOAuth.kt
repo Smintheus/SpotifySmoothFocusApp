@@ -6,6 +6,7 @@ import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import js.spotifytool.focuscounter.LoginActivity
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -61,7 +62,6 @@ class SpotifyOAuth(private val contextActivity: LoginActivity) {
                     tokenManager.storeRefreshToken(body.getString("refresh_token"))
                     tokenManager.storeAccessToken(body.getString("access_token"), body.getLong("expires_in"))
                     contextActivity.authFinished()
-
                 }
             }
         })
@@ -70,6 +70,8 @@ class SpotifyOAuth(private val contextActivity: LoginActivity) {
 
 
     fun oauthIssueCode(){
+
+
         val builder =
             AuthorizationRequest.Builder(this.clientId, AuthorizationResponse.Type.CODE, this.redirectUri)
 

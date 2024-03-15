@@ -1,26 +1,21 @@
 package js.spotifytool.focuscounter.spotify
 
+//import androidx.security.crypto.MasterKey
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import js.spotifytool.focuscounter.RefreshTokenNotFoundException
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
-import java.io.IOException
-//import androidx.security.crypto.MasterKey
+import js.spotifytool.focuscounter.MainActivity
+import js.spotifytool.focuscounter.NoValidRefreshToken
 import java.time.Instant
 
 
 class SpotifyTokenManager private constructor(private val appContext: Context) {
 
-
-    //TODO Locking für die meisten wichtigen dinge
+    // TODO invalid refresh token
+    //TODO Locking für die meisten wichtigen dinge -> eger bucgt
+    //Context irgendwie global machen das das einfacher wird
 
     companion object {
         @Volatile
@@ -28,8 +23,8 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
 
         fun getOrCreateInstance(appContext: Context) =
             instance ?: synchronized(this) {
-                //TODO global get app context impl
-                instance ?: SpotifyTokenManager(appContext).also { instance = it }
+                instance ?: js.spotifytool.focuscounter.spotify.SpotifyTokenManager(appContext)
+                    .also { instance = it }
             }
 
         private const val  REFRESH_TOKEN_KEY:String = "RefreshToken"
@@ -41,8 +36,7 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
     //privateSetter
 
     private val sharedPreferences:SharedPreferences
-    private val clientId = "1f2599622b5c4bcfaf1c6bdc5cc6f935";
-    private val client = OkHttpClient()
+    private val spotifyApi: SpotifyApi = SpotifyApi()
 
     init {
         val masterKey = MasterKey.Builder(appContext)
@@ -78,25 +72,28 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
         editor.apply()
     }
 
-    fun loadAccessToken():String{
+    suspend fun loadAccessToken():String{
         var accessToken = sharedPreferences.getString(ACCESS_TOKEN_KEY, "") ?: ""
         val expireTime = sharedPreferences.getLong(ACCESS_TOKEN_EXPIRE_TIME_KEY, 0)
 
 
-        //TODO
-        requestNewAccessToken()
-
         if (accessToken == "" || !isAccessTokenValid(accessToken, expireTime)){
-            accessToken = requestNewAccessToken()
+
+            val refreshToken = loadRefreshToken()
+            val api : SpotifyApi = SpotifyApi()
+            val token = api.issueAccessToken(refreshToken)
+            if(token != null){
+                accessToken = token
+            }
         }
         return accessToken
     }
 
-    private fun loadRefreshToken(){
-        val refreshToken = sharedPreferences.getString(REFRESH_TOKEN_KEY, null)
+    private fun loadRefreshToken():String{
+        return sharedPreferences.getString(REFRESH_TOKEN_KEY, null) ?: throw NoValidRefreshToken()
     }
 
-    private fun requestNewAccessToken(): String{
+   /* suspend fun requestNewAccessToken(): String? {
 
         val refreshToken = sharedPreferences.getString(REFRESH_TOKEN_KEY, "") ?: ""
 
@@ -117,34 +114,27 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
             .post(formBody)
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
 
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful){
-                        throw IOException("Unexpected code $response")
-                    }
-
-                    val body =  JSONObject(response.body!!.string())
-                    storeRefreshToken(body.getString("refresh_token"))
-                    storeAccessToken(body.getString("access_token"), body.getLong("expires_in"))
-                    //"expires_in"
-
-                }
-            }
-        })
-        return "yo"
+        val call = client.newCall(request)
 
 
+        val response = call.execute()
+        if(!response.isSuccessful || response.body == null) {
+            Log.e("access token requested", "${response.code}")
+            return null
+        }
 
+        val body =  JSONObject(response.body!!.string())
+        storeRefreshToken(body.getString("refresh_token"))
+        storeAccessToken(body.getString("access_token"), body.getLong("expires_in"))
+        return body.getString("access_token")
 
 
         //throw Exception if no refreshToken is found
 
     }
+
+    */
 
     private fun isAccessTokenValid(accessToken:String, expireTime: Long): Boolean{
 
@@ -153,10 +143,6 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
 
     }
 
-
-    private fun issueNewAccessToken(){
-
-    }
 
 
 
