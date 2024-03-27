@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FocusCounter</string>
+    <string name="loginButtonName">Login</string>
+    <string name="LoginWelcomeMessage">Welcome!\n Please login with your\n spotify account</string>
 </resources>

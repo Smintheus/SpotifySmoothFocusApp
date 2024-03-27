@@ -3,6 +3,7 @@ package js.spotifytool.focuscounter
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         tokenManager = SpotifyTokenManager.getOrCreateInstance(this.applicationContext)
+
     }
 
 
