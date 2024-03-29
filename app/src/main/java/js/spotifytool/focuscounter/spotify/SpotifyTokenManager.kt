@@ -54,6 +54,15 @@ class SpotifyTokenManager private constructor(private val appContext: Context) {
 
     }
 
+    fun hasRefreshToken():Boolean{
+        try{
+            loadRefreshToken()
+        } catch (e:NoValidRefreshToken){
+            return false
+        }
+        return true;
+    }
+
     fun storeRefreshToken(refreshToken:String){
 
         val editor = sharedPreferences.edit()

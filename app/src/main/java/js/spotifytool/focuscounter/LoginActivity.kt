@@ -14,13 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import js.spotifytool.focuscounter.spotify.SpotifyOAuth
+import js.spotifytool.focuscounter.spotify.SpotifyTokenManager
 import kotlin.math.PI
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
 
-//TODO rückkehr zu login sollte nicht mehr möglich sein
+//TODO return to login shouldnt been poissible
 
 class LoginActivity : AppCompatActivity() {
 
@@ -30,9 +31,20 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+
+
+        if (SpotifyTokenManager.getOrCreateInstance(this.application).hasRefreshToken())
+            authFinished()
         auth = SpotifyOAuth(this)
         createBottomDesignElement()
      }
+
+
+    override fun onStart() {
+        super.onStart()
+        if (SpotifyTokenManager.getOrCreateInstance(this.application).hasRefreshToken())
+            authFinished()
+    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun createBottomDesignElement(){
@@ -108,7 +120,5 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
-
-
 
 }
